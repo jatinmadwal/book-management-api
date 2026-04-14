@@ -1,5 +1,4 @@
 package com.example.bookapi.model;
-// chnage
 public class Book {
     private int id;
     private String name;
