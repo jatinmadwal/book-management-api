@@ -1,25 +1,40 @@
 package com.example.bookapi.model;
+
+import jakarta.validation.constraints.*;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotBlank(message = "Book name cannot be empty")
     private String name;
+
+    @NotBlank(message = "Author cannot be empty")
     private String author;
+
+    @Positive(message = "Price must be positive")
     private double price;
 
     public Book() {
     }
 
-    public Book(int id, String name, String author, double price) {
+    public Book(Integer id, String name, String author, double price) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.price = price;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -4,6 +4,7 @@ import com.example.bookapi.model.Book;
 import com.example.bookapi.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -15,9 +16,8 @@ public class BookController {
     private BookService service;
 
     @PostMapping
-    public String addBook(@RequestBody Book book) {
-        service.addBook(book);
-        return "Book added successfully";
+    public Book addBook(@Valid @RequestBody Book book) {
+        return service.addBook(book);
     }
 
     @GetMapping

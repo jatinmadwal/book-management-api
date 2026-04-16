@@ -1,5 +1,6 @@
 package com.example.bookapi.service;
 
+import com.example.bookapi.exception.BookNotFoundException;
 import com.example.bookapi.model.Book;
 import com.example.bookapi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +14,37 @@ public class BookService {
     @Autowired
     private BookRepository repository;
 
-    public void addBook(Book book) {
-        repository.addBook(book);
+    public Book addBook(Book book) {
+        return repository.save(book);
     }
 
     public List<Book> getAllBooks() {
-        return repository.getAllBooks();
+        return repository.findAll();
     }
 
     public Book getBookById(int id) {
-        return repository.getBookById(id);
+        Book book = repository.findById(id).orElse(null);
+
+        if (book == null) {
+            throw new BookNotFoundException("Book not found with id " + id);
+        }
+        return book;
     }
 
     public void deleteBook(int id) {
-        repository.deleteBook(id);
+        repository.deleteById(id);
     }
-    public void updateBook(int id, Book updatedBook) {
-        repository.updateBook(id, updatedBook);
+    public Book updateBook(int id, Book updatedBook) {
+        Book existingBook = repository.findById(id).orElse(null);
+
+        if (existingBook != null) {
+            existingBook.setName(updatedBook.getName());
+            existingBook.setAuthor(updatedBook.getAuthor());
+            existingBook.setPrice(updatedBook.getPrice());
+
+            return repository.save(existingBook);
+        }
+
+        return null;
     }
 }
