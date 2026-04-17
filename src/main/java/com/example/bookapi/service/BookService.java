@@ -11,8 +11,13 @@ import java.util.List;
 @Service
 public class BookService {
 
-    @Autowired
-    private BookRepository repository;
+
+    private final BookRepository repository;
+
+    public BookService(BookRepository repository) {
+        this.repository = repository;
+    }
+
 
     public Book addBook(Book book) {
         return repository.save(book);
@@ -39,7 +44,7 @@ public class BookService {
 
         if (existingBook != null) {
             existingBook.setName(updatedBook.getName());
-            existingBook.setAuthor(updatedBook.getAuthor());
+            existingBook.setUser(updatedBook.getUser());
             existingBook.setPrice(updatedBook.getPrice());
 
             return repository.save(existingBook);

@@ -1,40 +1,43 @@
 package com.example.bookapi.model;
 
-import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "books")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-    @NotBlank(message = "Book name cannot be empty")
     private String name;
-
-    @NotBlank(message = "Author cannot be empty")
-    private String author;
 
     @Positive(message = "Price must be positive")
     private double price;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // Default constructor
     public Book() {
     }
 
-    public Book(Integer id, String name, String author, double price) {
+    // Parameterized constructor
+    public Book(String id, String name, double price, User user) {
         this.id = id;
         this.name = name;
-        this.author = author;
         this.price = price;
+        this.user = user;
     }
 
-    public Integer getId() {
+    // Getters and Setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,19 +49,19 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

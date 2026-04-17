@@ -12,9 +12,11 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    @Autowired
-    private BookService service;
+    private final BookService service;
 
+    public BookController(BookService service) {
+        this.service = service;
+    }
     @PostMapping
     public Book addBook(@Valid @RequestBody Book book) {
         return service.addBook(book);
