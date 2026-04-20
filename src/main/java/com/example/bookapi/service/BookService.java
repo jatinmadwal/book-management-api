@@ -1,12 +1,14 @@
 package com.example.bookapi.service;
 
+import com.example.bookapi.dto.PageResponse;
 import com.example.bookapi.exception.BookNotFoundException;
 import com.example.bookapi.model.Book;
 import com.example.bookapi.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookService {
@@ -27,7 +29,7 @@ public class BookService {
         return repository.findAll();
     }
 
-    public Book getBookById(int id) {
+    public Book getBookById(UUID id) {
         Book book = repository.findById(id).orElse(null);
 
         if (book == null) {
@@ -36,10 +38,10 @@ public class BookService {
         return book;
     }
 
-    public void deleteBook(int id) {
+    public void deleteBook(UUID id) {
         repository.deleteById(id);
     }
-    public Book updateBook(int id, Book updatedBook) {
+    public void updateBook(UUID id, Book updatedBook) {
         Book existingBook = repository.findById(id).orElse(null);
 
         if (existingBook != null) {
@@ -47,9 +49,45 @@ public class BookService {
             existingBook.setUser(updatedBook.getUser());
             existingBook.setPrice(updatedBook.getPrice());
 
-            return repository.save(existingBook);
+            repository.save(existingBook);
         }
 
-        return null;
+    }
+
+    public PageResponse<Book> getAllBooks(Pageable pageable) {
+
+        Page<Book> page = repository.findAll(pageable);
+        return new PageResponse<>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages()
+        );
+    }
+
+    public PageResponse<Book> getAllBooks(int size, int page1) {
+
+        Pageable pageable = pageable(size,page1);
+
+        Page<Book> page = repository.findAll(pageable);
+        return new PageResponse<>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages()
+        );
+    }
+
+    public Pageable pageable(int size , int page){
+        if(size>50){
+            size=20;
+        }
+
+
+        return  PageRequest.of(page,size);
+
+
     }
 }

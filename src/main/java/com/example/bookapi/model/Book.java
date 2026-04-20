@@ -3,13 +3,15 @@ package com.example.bookapi.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "books")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     private String name;
 
@@ -25,7 +27,7 @@ public class Book {
     }
 
     // Parameterized constructor
-    public Book(String id, String name, double price, User user) {
+    public Book(UUID id, String name, double price, User user) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -33,11 +35,11 @@ public class Book {
     }
 
     // Getters and Setters
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
