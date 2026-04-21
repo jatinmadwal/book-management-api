@@ -56,6 +56,24 @@ public class BookController {
     public PageResponse<Book> getAllBooks1(@RequestParam(value = "size", defaultValue = "5") int size , @RequestParam(value = "page",defaultValue = "0") int page) {
         return service.getAllBooks(size,page);
     }
+    @GetMapping("/price")
+    public List<Book> getByPriceRange(
+            @RequestParam double min,
+            @RequestParam double max) {
 
+        return service.getBooksByPriceRange(min, max);
+    }
+    @GetMapping("/author")
+    public List<Book> getByAuthor(@RequestParam String name) {
+        return service.getBooksByAuthor(name);
+    }
+    @GetMapping("/filter")
+    public List<Book> filterBooks(
+            @RequestParam String name,
+            @RequestParam double min,
+            @RequestParam double max) {
+
+        return service.filterBooks(name, min, max);
+    }
 
 }

@@ -84,10 +84,16 @@ public class BookService {
         if(size>50){
             size=20;
         }
+        return  PageRequest.of(size,page);
+    }
 
-
-        return  PageRequest.of(page,size);
-
-
+    public List<Book> getBooksByPriceRange(double min, double max) {
+        return repository.findByPriceBetween(min, max);
+    }
+    public List<Book> getBooksByAuthor(String name) {
+        return repository.findByUser_Name(name);
+    }
+    public List<Book> filterBooks(String name, double min, double max) {
+        return repository.findByUser_NameAndPriceBetween(name, min, max);
     }
 }
