@@ -1,10 +1,13 @@
 package com.example.bookapi.repository;
 
-import com.example.bookapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.bookapi.model.Review;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
+
+    List<Review> findByBookId(UUID bookId);
 }
