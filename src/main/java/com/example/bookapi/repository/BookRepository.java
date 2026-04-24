@@ -11,7 +11,9 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-     List<Book> findByPriceBetween(double min, double max);
-    List<Book> findByUser_Name(String name);
-    List<Book> findByUser_NameAndPriceBetween(String name, double min, double max);
+    List<Book> findByPriceBetween(double min, double max);
+
+    List<Book> findByUser_Username(String username);
+
+    List<Book> findByUser_UsernameAndPriceBetween(String username, double min, double max);
 }

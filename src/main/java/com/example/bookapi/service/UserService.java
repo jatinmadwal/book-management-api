@@ -31,4 +31,26 @@ public class UserService {
     public void deleteUser(int id) {
         repository.deleteById(id);
     }
+    public User register(User user) {
+
+        User existing = repository.findByUsername(user.getUsername());
+
+        if (existing != null) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        return repository.save(user);
+    }
+    public User login(String username, String password) {
+
+
+        User user = repository.findByUsername(username);
+
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+
+        return null;
+    }
+
 }

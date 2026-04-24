@@ -90,10 +90,12 @@ public class BookService {
     public List<Book> getBooksByPriceRange(double min, double max) {
         return repository.findByPriceBetween(min, max);
     }
-    public List<Book> getBooksByAuthor(String name) {
-        return repository.findByUser_Name(name);
+
+    public List<Book> getBooksByAuthor(String username) {
+        return repository.findByUser_Username(username);
     }
-    public List<Book> filterBooks(String name, double min, double max) {
-        return repository.findByUser_NameAndPriceBetween(name, min, max);
+
+    public List<Book> filterBooks(String username, double min, double max) {
+        return repository.findByUser_UsernameAndPriceBetween(username, min, max);
     }
 }
