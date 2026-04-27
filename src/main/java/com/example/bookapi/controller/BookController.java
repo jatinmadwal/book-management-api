@@ -3,8 +3,6 @@ package com.example.bookapi.controller;
 import com.example.bookapi.dto.PageResponse;
 import com.example.bookapi.model.Book;
 import com.example.bookapi.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -52,9 +50,10 @@ public class BookController {
         return service.getAllBooks(pageable);
     }
 
+    //better readabilty for passing parameters
     @GetMapping("/p")
-    public PageResponse<Book> getAllBooks1(@RequestParam(value = "size", defaultValue = "5") int size , @RequestParam(value = "page",defaultValue = "0") int page) {
-        return service.getAllBooks(size,page);
+    public PageResponse<Book> getAllBooks1( @RequestParam(value = "page",defaultValue = "0") int page,@RequestParam(value = "size", defaultValue = "5") int size) {
+        return service.getAllBooks(page,size);
     }
     @GetMapping("/price")
     public List<Book> getByPriceRange(
