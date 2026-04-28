@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/auth")
+
 public class AuthController {
 
     private final UserService service;

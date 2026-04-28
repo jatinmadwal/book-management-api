@@ -4,6 +4,7 @@ import com.example.bookapi.dto.UserResponse;
 import com.example.bookapi.model.User;
 import com.example.bookapi.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +14,13 @@ public class UserService {
 
     private final UserRepository repository;
 
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
-
+        this.passwordEncoder = passwordEncoder;
     }
+
     public User createUser(User user) {
         return repository.save(user);
     }
@@ -34,6 +37,7 @@ public class UserService {
     public void deleteUser(int id) {
         repository.deleteById(id);
     }
+
     public User register(User user) {
 
         User existing = repository.findByUsername(user.getUsername());
@@ -41,7 +45,8 @@ public class UserService {
         if (existing != null) {
             throw new RuntimeException("Username already exists");
         }
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("USER");
         return repository.save(user);
     }
 
@@ -49,11 +54,13 @@ public class UserService {
 
         User user = repository.findByUsername(username);
 
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
+        if (user == null) {
+            return null;
+        }
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return null;
         }
 
-        return null;
+        return user;
     }
-
 }
