@@ -35,7 +35,11 @@ public class BookService {
     }
 
     public void deleteBook(UUID id) {
-        repository.deleteById(id);
+
+        Book book = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        repository.delete(book);
     }
 
     public void updateBook(UUID id, Book updatedBook) {
