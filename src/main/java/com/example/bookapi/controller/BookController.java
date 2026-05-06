@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/books")
@@ -29,19 +29,19 @@ public class BookController {
         return service.getAllBooks();
     }
 
-//    @GetMapping("/{id}")
-//    public Book getBookById(@PathVariable int id) {
-//        return service.getBookById(id);
-//    }
+    @GetMapping("/{id}")
+    public Book getBookById(@PathVariable Long id) {
+        return service.getBookById(id);
+    }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteBook(@PathVariable UUID id) {
+    public String deleteBook(@PathVariable Long id) {
         service.deleteBook(id);
         return "Book deleted successfully";
     }
 
     @PutMapping("/{id}")
-    public String updateBook(@PathVariable UUID id, @RequestBody Book updatedBook) {
+    public String updateBook(@PathVariable Long id, @RequestBody Book updatedBook) {
         service.updateBook(id, updatedBook);
         return "Book updated successfully";
     }

@@ -2,17 +2,20 @@ package com.example.bookapi.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.sql.Types;
+
 
 @Entity
 @Table(name = "books")
-public class Book {
+public class Book implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
 
     @Positive(message = "Price must be positive")
@@ -27,7 +30,7 @@ public class Book {
     }
 
     // Parameterized constructor
-    public Book(UUID id, String name, double price, User user) {
+    public Book(Long id, String name, double price, User user) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -35,11 +38,11 @@ public class Book {
     }
 
     // Getters and Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

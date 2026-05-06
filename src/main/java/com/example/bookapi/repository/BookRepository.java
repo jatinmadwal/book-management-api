@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, UUID> {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByPriceBetween(double min, double max);
 

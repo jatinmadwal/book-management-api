@@ -19,7 +19,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // disable CSRF
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // public endpoints
                         .requestMatchers("/auth/**").permitAll()
+
+                        // ADMIN only
+                        .requestMatchers("/books/delete/**").hasRole("ADMIN")
+
+                        // USER + ADMIN
+                        .requestMatchers("/books/**").hasAnyRole("USER", "ADMIN")
+
+                        // everything else
                         .anyRequest().authenticated()
                 )
 
